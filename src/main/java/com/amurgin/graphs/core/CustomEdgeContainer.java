@@ -1,6 +1,6 @@
 package com.amurgin.graphs.core;
 
-public class CustomEdgeContainer<V, E> extends EdgeVerticesContainerMixin<V, E> {
+class CustomEdgeContainer<V, E> extends AbstractEdgeVerticesContainer<V, E> {
 
     public CustomEdgeContainer(V start, V end, E edgeEntity) {
         this.start = start;

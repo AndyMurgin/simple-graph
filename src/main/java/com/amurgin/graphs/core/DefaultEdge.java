@@ -2,23 +2,31 @@ package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.Edge;
 
-class DefaultEdge<V> implements Edge<V> {
+public class DefaultEdge implements Edge<Object> {
 
-    private V start;
-    private V end;
+    private Object start;
+    private Object end;
 
-    DefaultEdge(V start, V end) {
+    DefaultEdge(Object start, Object end) {
         this.start = start;
         this.end = end;
     }
 
     @Override
-    public V getStart() {
-        return null;
+    public Object getStart() {
+        return start;
     }
 
     @Override
-    public V getEnd() {
-        return null;
+    public Object getEnd() {
+        return end;
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultEdge{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
     }
 }

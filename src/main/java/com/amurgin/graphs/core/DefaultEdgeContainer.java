@@ -1,25 +1,23 @@
 package com.amurgin.graphs.core;
 
-class DefaultEdgeContainer<V> extends EdgeEntityContainerMixin<V, DefaultEdge<V>> {
-
-    private DefaultEdge<V> defaultEdge;
+class DefaultEdgeContainer<V> extends AbstractEdgeEntityContainer<V, DefaultEdge> {
 
     public DefaultEdgeContainer(V start, V end) {
-        defaultEdge = new DefaultEdge<>(start, end);
+        edgeEntity = new DefaultEdge(start, end);
     }
 
     @Override
-    public DefaultEdge<V> getEdgeEntity() {
-        return defaultEdge;
+    public DefaultEdge getEdgeEntity() {
+        return edgeEntity;
     }
 
     @Override
     public V getStart() {
-        return defaultEdge.getStart();
+        return TypeUtils.uncheckedCast(edgeEntity.getStart());
     }
 
     @Override
     public V getEnd() {
-        return defaultEdge.getEnd();
+        return TypeUtils.uncheckedCast(edgeEntity.getEnd());
     }
 }

@@ -1,6 +1,6 @@
 package com.amurgin.graphs.core;
 
-abstract class EdgeVerticesContainerMixin<V, E> extends EdgeEntityContainerMixin<V, E> {
+abstract class AbstractEdgeVerticesContainer<V, E> extends AbstractEdgeEntityContainer<V, E> {
 
     protected V start;
     protected V end;
