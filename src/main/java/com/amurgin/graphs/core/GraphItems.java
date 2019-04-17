@@ -79,6 +79,9 @@ class GraphItems<V, E> {
         }
 
         List<EdgeContainer<V, E>> getPath() {
+            if (source.equals(target)) {
+                return resultPath; //empty ArrayList //TODO is there need to return not empty list?
+            }
             traversalQueue.addAll(verticesAdjustments.get(source).getOutcomingEdges());
             while (traversalQueue.size() != 0 && resultPath.isEmpty()) {
                 processCurrentVertex();

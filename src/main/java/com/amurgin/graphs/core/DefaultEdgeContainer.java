@@ -1,6 +1,6 @@
 package com.amurgin.graphs.core;
 
-import com.amurgin.graphs.api.Edge;
+import com.amurgin.graphs.api.EdgeContainer;
 
 class DefaultEdgeContainer<V> extends AbstractEdgeEntityContainer<V, DefaultEdge> {
 
@@ -24,7 +24,7 @@ class DefaultEdgeContainer<V> extends AbstractEdgeEntityContainer<V, DefaultEdge
     }
 
     @Override
-    public Edge<V> revert() {
+    public EdgeContainer<V, DefaultEdge> revert() {
         return new DefaultEdgeContainer<>(getTarget(), getSource());
     }
 }

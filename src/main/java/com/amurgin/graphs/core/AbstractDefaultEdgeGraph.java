@@ -13,6 +13,6 @@ abstract class AbstractDefaultEdgeGraph<V> extends AbstractGraph<V, DefaultEdge>
 
     @Override
     public boolean addEdge(V source, V target) {
-        return super.addEdge(source, target, DefaultEdge.empty());
+        return super.addEdge(source, target, DefaultEdge.empty()); //TODO avoid DefaultEdge mock
     }
 }
