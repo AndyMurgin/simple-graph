@@ -8,15 +8,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DirectedDefaultEdgeGraphTest {
+public class UndirectedDefaultEdgeGraphTest {
 
     @Test
     public void simpleStringGraphTest() {
-        DefaultEdgeGraph<String> graph = new DirectedDefaultEdgeGraph<>();
+        DefaultEdgeGraph<String> graph = new UndirectedDefaultEdgeGraph<>();
         graph.addVertex("One");
         graph.addVertex("Two");
         graph.addVertex("Three");
-        graph.addEdge("One", "Two");
+        graph.addEdge("Two", "One");
         graph.addEdge("Two", "Three");
         List<EdgeContainer<String, DefaultEdge>> defaultEdgeContainers = graph.getPath(
                 "One", "Three");

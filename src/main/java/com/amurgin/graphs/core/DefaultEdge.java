@@ -4,29 +4,41 @@ import com.amurgin.graphs.api.Edge;
 
 public class DefaultEdge implements Edge<Object> {
 
-    private Object start;
-    private Object end;
+    private Object source;
+    private Object target;
 
-    DefaultEdge(Object start, Object end) {
-        this.start = start;
-        this.end = end;
+    DefaultEdge(Object source, Object target) {
+        this.source = source;
+        this.target = target;
+    }
+
+    private DefaultEdge(){
+    }
+
+    static DefaultEdge empty() {
+        return new DefaultEdge();
     }
 
     @Override
-    public Object getStart() {
-        return start;
+    public Object getSource() {
+        return source;
     }
 
     @Override
-    public Object getEnd() {
-        return end;
+    public Object getTarget() {
+        return target;
+    }
+
+    @Override
+    public Edge<Object> revert() {
+        return new DefaultEdge(target, source);
     }
 
     @Override
     public String toString() {
         return "DefaultEdge{" +
-                "start=" + start +
-                ", end=" + end +
+                "source=" + source +
+                ", target=" + target +
                 '}';
     }
 }

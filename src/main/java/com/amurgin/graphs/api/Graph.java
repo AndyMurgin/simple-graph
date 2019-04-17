@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface Graph<V, E> {
     boolean addVertex(V vertex);
-    boolean addEdge(V vertexA, V vertexB, E edgeEntity);
+    boolean addEdge(V source, V target, E edgeEntity);
     Set<V> getAllVertices();
-    List<E> getPath(V vertexA, V vertexB);
+    List<EdgeContainer<V, E>> getPath(V source, V target);
 }

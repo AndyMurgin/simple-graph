@@ -20,13 +20,13 @@ abstract class AbstractGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public boolean addVertex(V vertex) {
+    public boolean addVertex(final V vertex) {
         return graphItems.addVertex(vertex);
     }
 
     @Override
-    public boolean addEdge(V vertexA, V vertexB, E edgeEntity) {
-        return graphItems.addEdge(vertexA, vertexB, edgeEntity);
+    public boolean addEdge(final V source, final V target, final E edgeEntity) {
+        return graphItems.addEdge(source, target, edgeEntity);
     }
 
     @Override
@@ -35,8 +35,7 @@ abstract class AbstractGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public List<E> getPath(V vertexA, V vertexB) {
-        List<EdgeContainer<V, E>> edgeContainersPath = graphItems.bfsPathFinder(vertexA, vertexB).getPath();
-        return edgeContainersPath.stream().map(EdgeContainer::getEdgeEntity).collect(Collectors.toList());
+    public List<EdgeContainer<V, E>> getPath(final V source, final V target) {
+        return graphItems.bfsPathFinder(source, target).getPath();
     }
 }

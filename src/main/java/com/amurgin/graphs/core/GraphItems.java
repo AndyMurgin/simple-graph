@@ -7,19 +7,19 @@ import com.amurgin.graphs.api.VertexContainer;
 import java.util.*;
 import java.util.function.Function;
 
-public class GraphItems<V, E> {
+class GraphItems<V, E> {
     private Map<V, VertexContainer<V, E>> verticesAdjustments;
     private final EdgeContainerBuilder<V, E> edgeContainerBuilder;
     private final Function<V, VertexContainer<V, E>> vertexContainerBuilder;
 
-    public GraphItems(Function<V, VertexContainer<V, E>> vertexContainerBuilder,
+    GraphItems(Function<V, VertexContainer<V, E>> vertexContainerBuilder,
                       EdgeContainerBuilder<V, E> edgeContainerBuilder) {
         verticesAdjustments = new HashMap<>();
         this.edgeContainerBuilder = edgeContainerBuilder;
         this.vertexContainerBuilder = vertexContainerBuilder;
     }
 
-    public boolean addVertex(V vertex) {
+    boolean addVertex(final V vertex) {
         if (vertex == null) {
             throw new NullPointerException("Unable to add null vertex");
         }
@@ -30,24 +30,34 @@ public class GraphItems<V, E> {
         return false;
     }
 
-    public boolean addEdge(V vertexA, V vertexB, E edgeEntity) {
-        if (!contains(vertexA) || !contains(vertexB)) {
+    boolean addEdge(final V source, final V target, final E edgeEntity) {
+        if (!contains(source) || !contains(target)) {
             return false;
         }
-        VertexContainer<V, E> sourceContainerForA = verticesAdjustments.get(vertexA);
-        sourceContainerForA.addEdge(edgeContainerBuilder.create(vertexA, vertexB, edgeEntity));
+        VertexContainer<V, E> sourceContainer = verticesAdjustments.get(source);
+        sourceContainer.addEdge(edgeContainerBuilder.create(source, target, edgeEntity));
 
-        VertexContainer<V, E> sourceContainerForB = verticesAdjustments.get(vertexB);
-        sourceContainerForB.addEdge(edgeContainerBuilder.create(vertexA, vertexB, edgeEntity));
+        VertexContainer<V, E> targetContainer = verticesAdjustments.get(target);
+        targetContainer.addEdge(edgeContainerBuilder.create(source, target, edgeEntity));
         return true;
     }
 
-    public Set<V> getAllVertices() {
+    Set<V> getAllVertices() {
         return verticesAdjustments.keySet();
     }
 
-    public GraphPathFinder bfsPathFinder(V source, V target) {
+    GraphPathFinder bfsPathFinder(V source, V target) {
+        if (!contains(source)) {
+           throwOutOfGraphVertexException(source);
+        } else if (!contains(target)) {
+            throwOutOfGraphVertexException(target);
+        }
         return new GraphPathFinder(source, target);
+    }
+
+    private void throwOutOfGraphVertexException(V vertex) {
+        throw new IllegalArgumentException(String.format("Unable to create GraphPathFinder: " +
+                "vertex %s isn't included into the graph", vertex));
     }
 
     private boolean contains(V vertex) {
@@ -59,8 +69,8 @@ public class GraphItems<V, E> {
         private Set<V> visited = new HashSet<>();
         private Map<V, Deque<EdgeContainer<V, E>>> pathsToVertices = new HashMap<>();
         private Queue<EdgeContainer<V, E>> traversalQueue = new LinkedList<>();
-        private V source; //TODO should be in graph!
-        private V target; //TODO should be in graph!
+        private V source;
+        private V target;
         private List<EdgeContainer<V, E>> resultPath = new ArrayList<>();
 
         private GraphPathFinder(V source, V target) {
@@ -68,9 +78,8 @@ public class GraphItems<V, E> {
             this.target = target;
         }
 
-        public List<EdgeContainer<V, E>> getPath() {
+        List<EdgeContainer<V, E>> getPath() {
             traversalQueue.addAll(verticesAdjustments.get(source).getOutcomingEdges());
-            boolean found = false;
             while (traversalQueue.size() != 0 && resultPath.isEmpty()) {
                 processCurrentVertex();
             }
@@ -81,7 +90,7 @@ public class GraphItems<V, E> {
             EdgeContainer<V, E> currentEdge = traversalQueue.poll();
             if (currentEdge != null) {
                 addPathToVertex(currentEdge);
-                V current = currentEdge.getEnd();
+                V current = currentEdge.getTarget();
                 if (!visited.contains(current)) {
                     if (current.equals(target)) {
                         resultPath = new ArrayList<>(pathsToVertices.get(current));
@@ -94,13 +103,13 @@ public class GraphItems<V, E> {
         }
 
         private void addPathToVertex(EdgeContainer<V, E> currentEdge) {
-            if (pathsToVertices.get(currentEdge.getEnd()) == null) {
-                Deque<EdgeContainer<V, E>> pathToPreviousVertex = pathsToVertices.computeIfAbsent(currentEdge.getStart(),
+            if (pathsToVertices.get(currentEdge.getTarget()) == null) {
+                Deque<EdgeContainer<V, E>> pathToPreviousVertex = pathsToVertices.computeIfAbsent(currentEdge.getSource(),
                         k -> new LinkedList<>());
                 Deque<EdgeContainer<V, E>> pathToCurrentVertex = new LinkedList<>();
                 pathToPreviousVertex.forEach(pathToCurrentVertex::addLast);
                 pathToCurrentVertex.addLast(currentEdge);
-                pathsToVertices.put(currentEdge.getEnd(), pathToCurrentVertex);
+                pathsToVertices.put(currentEdge.getTarget(), pathToCurrentVertex);
             }
         }
     }

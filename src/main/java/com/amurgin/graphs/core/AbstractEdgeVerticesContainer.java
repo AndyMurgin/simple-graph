@@ -2,16 +2,16 @@ package com.amurgin.graphs.core;
 
 abstract class AbstractEdgeVerticesContainer<V, E> extends AbstractEdgeEntityContainer<V, E> {
 
-    protected V start;
-    protected V end;
+    protected V source;
+    protected V target;
 
     @Override
-    public V getStart() {
-        return start;
+    public V getSource() {
+        return source;
     }
 
     @Override
-    public V getEnd() {
-        return end;
+    public V getTarget() {
+        return target;
     }
 }

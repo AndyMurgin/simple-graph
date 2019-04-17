@@ -1,6 +1,6 @@
 package com.amurgin.graphs.core;
 
-public class TypeUtils {
+class TypeUtils {
 
     /**
      * Casts an object to a type.
@@ -11,7 +11,7 @@ public class TypeUtils {
      * @return the result of the cast
      */
     @SuppressWarnings("unchecked")
-    public static <T> T uncheckedCast(Object o)
+    static <T> T uncheckedCast(Object o)
     {
         return (T) o;
     }
