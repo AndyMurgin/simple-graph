@@ -10,15 +10,15 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DirectedGraphTest {
+public class UndirectedGraphTest {
 
     @Test
     public void pathGraphTest() {
-        Graph<String, Integer> graph = new DirectedGraph<>(Integer.class);
+        Graph<String, Integer> graph = new UndirectedGraph<>(Integer.class);
         graph.addVertex("One");
         graph.addVertex("Two");
         graph.addVertex("Three");
-        graph.addEdge("One", "Two", 1);
+        graph.addEdge("Two", "One", 1);
         graph.addEdge("Two", "Three", 2);
         List<EdgeContainer<String, Integer>> edgeContainers = graph.getPath("One", "Three");
         assertEquals(2, edgeContainers.size());
@@ -32,16 +32,15 @@ public class DirectedGraphTest {
 
     @Test
     public void cycleGraphTest() {
-        Graph<Integer, Integer> graph = new DirectedGraph<>(Integer.class);
+        Graph<Integer, Integer> graph = new UndirectedGraph<>(Integer.class);
         Stream.of(1, 2, 3, 4, 5, 6).forEach(graph::addVertex);
         graph.addEdge(1, 2, 1);
-        graph.addEdge(1, 3, 2);
+        graph.addEdge(3, 1, 2);
         graph.addEdge(2, 4, 3);
-        graph.addEdge(3, 5, 4);
+        graph.addEdge(5, 3, 4);
         graph.addEdge(4, 6, 5);
-        graph.addEdge(5, 6, 6);
-        List<EdgeContainer<Integer, Integer>> edgeContainers = graph.getPath(
-                1, 5);
+        graph.addEdge(6, 5, 6);
+        List<EdgeContainer<Integer, Integer>> edgeContainers = graph.getPath(1, 5);
         assertEquals(2, edgeContainers.size());
         assertEquals(1, edgeContainers.get(0).getSource());
         assertEquals(2, edgeContainers.get(0).getEdgeEntity());
@@ -51,7 +50,7 @@ public class DirectedGraphTest {
 
     @Test
     public void cycleGraphWithEqualSourceAndTargetTest() {
-        Graph<Integer, Integer> graph = new DirectedGraph<>(Integer.class);
+        Graph<Integer, Integer> graph = new UndirectedGraph<>(Integer.class);
         Stream.of(1, 2, 3, 4, 5, 6).forEach(graph::addVertex);
         graph.addEdge(1, 2, 1);
         graph.addEdge(2, 3, 2);
@@ -59,14 +58,13 @@ public class DirectedGraphTest {
         graph.addEdge(4, 5, 4);
         graph.addEdge(5, 6, 5);
         graph.addEdge(6, 1, 6);
-        List<EdgeContainer<Integer, Integer>> edgeContainers = graph.getPath(
-                1, 1);
+        List<EdgeContainer<Integer, Integer>> edgeContainers = graph.getPath(1, 1);
         assertTrue(edgeContainers.isEmpty());
     }
 
     @Test
     public void disconnectedTest() {
-        Graph<Integer, Object> graph = new DirectedGraph<>(Object.class);
+        Graph<Integer, Object> graph = new UndirectedGraph<>(Object.class);
         Stream.of(1, 2).forEach(graph::addVertex);
         List<EdgeContainer<Integer, Object>> edgeContainers = graph.getPath(1, 2);
         assertTrue(edgeContainers.isEmpty());
