@@ -1,5 +1,11 @@
 package com.amurgin.graphs.core;
 
+/**
+ * Represents implementation of directed graph with custom
+ * vertices and edge entities classes
+ * @param <V> graph vertices class
+ * @param <E> graph edge entities class
+ */
 public class DirectedGraph<V, E> extends AbstractGraph<V, E> {
 
     public DirectedGraph(Class<E> edgeType) {

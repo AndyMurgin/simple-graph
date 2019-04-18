@@ -1,12 +1,16 @@
 package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.EdgeContainer;
-import com.amurgin.graphs.api.EdgeContainerBuilder;
-import com.amurgin.graphs.api.VertexContainer;
 
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * Encapsulates all graph inner structure and provides common operations
+ * under graph items (vertices and edges).
+ * @param <V> graph vertices class
+ * @param <E> graph edges class
+ */
 class GraphItems<V, E> {
     private Map<V, VertexContainer<V, E>> verticesAdjacents;
     private final EdgeContainerBuilder<V, E> edgeContainerBuilder;
@@ -46,15 +50,6 @@ class GraphItems<V, E> {
         return verticesAdjacents.keySet();
     }
 
-    GraphPathFinder bfsPathFinder(V source, V target) {
-        if (!contains(source)) {
-           throwOutOfGraphVertexException(source);
-        } else if (!contains(target)) {
-            throwOutOfGraphVertexException(target);
-        }
-        return new GraphPathFinder(source, target);
-    }
-
     private void throwOutOfGraphVertexException(V vertex) {
         throw new IllegalArgumentException(String.format("Unable to create GraphPathFinder: " +
                 "vertex %s isn't included into the graph", vertex));
@@ -64,7 +59,22 @@ class GraphItems<V, E> {
         return verticesAdjacents.containsKey(vertex);
     }
 
-    public class GraphPathFinder {
+    BfsPathFinder bfsPathFinder(V source, V target) {
+        if (!contains(source)) {
+            throwOutOfGraphVertexException(source);
+        } else if (!contains(target)) {
+            throwOutOfGraphVertexException(target);
+        }
+        return new BfsPathFinder(source, target);
+    }
+
+    /**
+     * Instances of the class are intended to find path using Breadth-first search algorithm
+     * (<a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a>).
+     *
+     * Each new search requires to create new BfsPathFinder instance.
+     */
+    public class BfsPathFinder {
 
         private Set<V> visited = new HashSet<>();
         private Map<V, Deque<EdgeContainer<V, E>>> pathsToVertices = new HashMap<>();
@@ -73,7 +83,7 @@ class GraphItems<V, E> {
         private V target;
         private List<EdgeContainer<V, E>> resultPath = new ArrayList<>();
 
-        private GraphPathFinder(V source, V target) {
+        private BfsPathFinder(V source, V target) {
             this.source = source;
             this.target = target;
         }

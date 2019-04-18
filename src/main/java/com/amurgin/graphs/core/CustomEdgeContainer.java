@@ -4,6 +4,12 @@ import com.amurgin.graphs.api.EdgeContainer;
 
 import java.util.Objects;
 
+/**
+ * Inner graph edge representation containing source and target edge's vertices
+ * and user-defined edge entity class.
+ * @param <V> graph vertices class
+ * @param <E> graph edge entities class
+ */
 class CustomEdgeContainer<V, E> extends AbstractEdgeVerticesContainer<V, E> {
 
     CustomEdgeContainer(V source, V target, E edgeEntity) {

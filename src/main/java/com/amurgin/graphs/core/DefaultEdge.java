@@ -4,6 +4,12 @@ import com.amurgin.graphs.api.Edge;
 
 import java.util.Objects;
 
+/**
+ * Used as graphs edge entity in case when there is no need in
+ * specific user-defined class associated with graph edges.
+ *
+ * Isn't intended to be instantiate by clients.
+ */
 public class DefaultEdge implements Edge<Object> {
 
     private Object source;

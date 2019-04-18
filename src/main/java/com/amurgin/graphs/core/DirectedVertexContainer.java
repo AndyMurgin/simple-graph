@@ -2,6 +2,11 @@ package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.EdgeContainer;
 
+/**
+ * {@link VertexContainer} for directed graphs.
+ * @param <V> graph vertices class
+ * @param <E> graph edge entities class
+ */
 class DirectedVertexContainer<V, E> extends AbstractVertexContainer<V, E> {
 
     DirectedVertexContainer(V vertex, Class<E> edgeType) {

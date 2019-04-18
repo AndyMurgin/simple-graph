@@ -1,15 +1,17 @@
 package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.EdgeContainer;
-import com.amurgin.graphs.api.EdgeContainerBuilder;
 import com.amurgin.graphs.api.Graph;
-import com.amurgin.graphs.api.VertexContainer;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
+/**
+ * Supposed to be used as parent class for all graphs implementations.
+ * @param <V> graph vertex class
+ * @param <E> graph edge class
+ */
 abstract class AbstractGraph<V, E> implements Graph<V, E> {
 
     private GraphItems<V, E> graphItems;

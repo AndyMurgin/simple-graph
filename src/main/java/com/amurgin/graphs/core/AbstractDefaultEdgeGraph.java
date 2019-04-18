@@ -1,7 +1,6 @@
 package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.DefaultEdgeGraph;
-import com.amurgin.graphs.api.VertexContainer;
 
 import java.util.function.Function;
 

@@ -1,7 +1,6 @@
 package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.EdgeContainer;
-import com.amurgin.graphs.api.VertexContainer;
 
 import java.util.Collection;
 import java.util.HashSet;
