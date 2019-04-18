@@ -2,6 +2,8 @@ package com.amurgin.graphs.core;
 
 import com.amurgin.graphs.api.Edge;
 
+import java.util.Objects;
+
 public class DefaultEdge implements Edge<Object> {
 
     private Object source;
@@ -40,5 +42,19 @@ public class DefaultEdge implements Edge<Object> {
                 "source=" + source +
                 ", target=" + target +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DefaultEdge that = (DefaultEdge) o;
+        return Objects.equals(source, that.source) &&
+                Objects.equals(target, that.target);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(source, target);
     }
 }

@@ -32,6 +32,7 @@
     <build>
         <plugins>
             <plugin>
+                <!-- explicit declaration is important for junit 5 tests running during maven build -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>

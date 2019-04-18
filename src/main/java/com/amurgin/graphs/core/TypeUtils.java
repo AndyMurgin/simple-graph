@@ -11,8 +11,7 @@ class TypeUtils {
      * @return the result of the cast
      */
     @SuppressWarnings("unchecked")
-    static <T> T uncheckedCast(Object o)
-    {
+    static <T> T uncheckedCast(Object o) {
         return (T) o;
     }
 }

@@ -8,13 +8,13 @@ import java.util.*;
 import java.util.function.Function;
 
 class GraphItems<V, E> {
-    private Map<V, VertexContainer<V, E>> verticesAdjustments;
+    private Map<V, VertexContainer<V, E>> verticesAdjacents;
     private final EdgeContainerBuilder<V, E> edgeContainerBuilder;
     private final Function<V, VertexContainer<V, E>> vertexContainerBuilder;
 
     GraphItems(Function<V, VertexContainer<V, E>> vertexContainerBuilder,
                       EdgeContainerBuilder<V, E> edgeContainerBuilder) {
-        verticesAdjustments = new HashMap<>();
+        verticesAdjacents = new HashMap<>();
         this.edgeContainerBuilder = edgeContainerBuilder;
         this.vertexContainerBuilder = vertexContainerBuilder;
     }
@@ -24,7 +24,7 @@ class GraphItems<V, E> {
             throw new NullPointerException("Unable to add null vertex");
         }
         if (!contains(vertex)) {
-            verticesAdjustments.put(vertex, vertexContainerBuilder.apply(vertex));
+            verticesAdjacents.put(vertex, vertexContainerBuilder.apply(vertex));
             return true;
         }
         return false;
@@ -34,16 +34,16 @@ class GraphItems<V, E> {
         if (!contains(source) || !contains(target)) {
             return false;
         }
-        VertexContainer<V, E> sourceContainer = verticesAdjustments.get(source);
+        VertexContainer<V, E> sourceContainer = verticesAdjacents.get(source);
         sourceContainer.addEdge(edgeContainerBuilder.create(source, target, edgeEntity));
 
-        VertexContainer<V, E> targetContainer = verticesAdjustments.get(target);
+        VertexContainer<V, E> targetContainer = verticesAdjacents.get(target);
         targetContainer.addEdge(edgeContainerBuilder.create(source, target, edgeEntity));
         return true;
     }
 
     Set<V> getAllVertices() {
-        return verticesAdjustments.keySet();
+        return verticesAdjacents.keySet();
     }
 
     GraphPathFinder bfsPathFinder(V source, V target) {
@@ -61,7 +61,7 @@ class GraphItems<V, E> {
     }
 
     private boolean contains(V vertex) {
-        return verticesAdjustments.containsKey(vertex);
+        return verticesAdjacents.containsKey(vertex);
     }
 
     public class GraphPathFinder {
@@ -82,7 +82,7 @@ class GraphItems<V, E> {
             if (source.equals(target)) {
                 return resultPath; //empty ArrayList //TODO is there need to return not empty list?
             }
-            traversalQueue.addAll(verticesAdjustments.get(source).getOutcomingEdges());
+            traversalQueue.addAll(verticesAdjacents.get(source).getOutcomingEdges());
             while (traversalQueue.size() != 0 && resultPath.isEmpty()) {
                 processCurrentVertex();
             }
@@ -99,7 +99,7 @@ class GraphItems<V, E> {
                         resultPath = new ArrayList<>(pathsToVertices.get(current));
                     } else {
                         visited.add(current);
-                        traversalQueue.addAll(verticesAdjustments.get(current).getOutcomingEdges());
+                        traversalQueue.addAll(verticesAdjacents.get(current).getOutcomingEdges());
                     }
                 } // else next step
             }
